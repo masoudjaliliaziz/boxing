@@ -1,0 +1,11 @@
+{
+  "boxers": [
+    {
+      "id": 1,
+      "name": "omid",
+      "lastName": "sadeghi",
+      "role": "master",
+      "age": 33
+    }
+  ]
+}
