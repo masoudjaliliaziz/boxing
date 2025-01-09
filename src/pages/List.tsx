@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { useBoxer } from "../context/BoxerContext";
 import UserItem from "../components/UserItem";
+import { Outlet } from "react-router";
 type User = {
   id: number;
   name: string;
