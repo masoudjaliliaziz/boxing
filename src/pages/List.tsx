@@ -1,21 +1,25 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { useBoxer } from "../context/BoxerContext";
+import UserItem from "../components/UserItem";
 type User = {
   id: number;
   name: string;
   lastName: string;
   role: string;
   age: number;
+  Ideadline: string;
 };
 function List() {
   const { user } = useBoxer();
   return (
-    <div className="flex justify-center">
+    <div className=" w-full h-dvh flex flex-col pl-10 py-5 justify-start">
       <Navbar />
-      {user.map((user) => {
-        return <h1>{user.name}</h1>;
-      })}
+      <div className="flex flex-col gap-3">
+        {user.map((user: User) => {
+          return <UserItem user={user} key={user.id} />;
+        })}
+      </div>
     </div>
   );
 }

@@ -6,13 +6,27 @@ type User = {
   lastName: string;
   role: string;
   age: number;
+  Ideadline: string;
 };
-const BoxerContext = createContext(null);
+type BoxerContextType = {
+  user: User[];
+};
+type State = {
+  user: User[];
+};
+type Action = { type: "getUser"; payload: User[] };
 
-const initialState = {
+type Props = {
+  children: React.ReactNode;
+};
+
+const BoxerContext = createContext<BoxerContextType | null>(null);
+
+const initialState: State = {
   user: [],
 };
-function BoxerProvider({ children }) {
+
+function BoxerProvider({ children }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -24,7 +38,7 @@ function BoxerProvider({ children }) {
     fetchUser();
   }, []);
   const { user } = state;
-  function reducer(state, action) {
+  function reducer(state: State, action: Action): State {
     switch (action.type) {
       case "getUser":
         return { ...state, user: action.payload };
