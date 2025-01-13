@@ -4,8 +4,24 @@ function getIdeadline(date) {
   time.setMonth(time.getMonth() + 12);
 
   const now = new Date();
-  // تبدیل تاریخ‌ها به زمان بر حسب میلی‌ثانیه و مقایسه
-  return now.getTime() > time.getTime();
+
+  // اگر تاریخ فعلی از تاریخ انقضا عبور کرده باشد
+  if (now.getTime() > time.getTime()) {
+    return {
+      expired: true, // نشان‌دهنده اینکه بیمه منقضی شده است
+      daysRemaining: 0, // روزهای باقی‌مانده صفر است
+    };
+  }
+
+  // محاسبه تعداد روزهای باقی‌مانده
+  const daysRemaining = Math.ceil(
+    (time.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  return {
+    expired: false, // بیمه هنوز معتبر است
+    daysRemaining, // تعداد روزهای باقی‌مانده
+  };
 }
 
 export { getIdeadline };

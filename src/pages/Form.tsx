@@ -19,7 +19,7 @@ const initialState = {
   insuranceDate: "",
   name: "",
   lastName: "",
-  role: "",
+  role: "boxer",
   phoneNumber: "",
   km: "",
   age: "",
@@ -178,7 +178,6 @@ function Form() {
             name
           </label>
           <input
-            className="bg-slate-800 p-2 rounded-lg "
             id="name"
             className="bg-slate-800 p-2 rounded-lg "
             type="text"
@@ -231,14 +230,12 @@ function Form() {
             role
           </label>
           <input
-            className="bg-slate-800 p-2 rounded-lg "
+            className="bg-slate-400 p-2 rounded-lg text-slate-500"
             id="role"
-            placeholder="role"
+            placeholder="boxer"
             type="text"
             value={role}
-            onChange={(e) =>
-              dispatch({ type: "set/role", payload: e.target.value })
-            }
+            disabled={true}
           />
         </div>
         <div className="flex flex-col gap-3 p-3 w-4/12 justify-center items-center h-full text-white">
