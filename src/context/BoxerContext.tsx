@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
-import { Action, BoxerContextType, State } from "../Types/types";
+import { Action, BoxerContextType, State, User } from "../Types/types";
 
 type Props = {
   children: React.ReactNode;
@@ -56,11 +56,17 @@ function BoxerProvider({ children }: Props) {
         return { ...state, user: action.payload };
       case "getUserById":
         return { ...state, userI: action.payload };
+      case "setNewUser":
+        return { ...state, user: [...state.user, action.payload] };
     }
   }
 
+  function setUser(user: User) {
+    dispatch({ type: "setNewUser", payload: user });
+  }
+
   return (
-    <BoxerContext.Provider value={{ user, userI, getUserById }}>
+    <BoxerContext.Provider value={{ user, userI, getUserById, setUser }}>
       {children}
     </BoxerContext.Provider>
   );

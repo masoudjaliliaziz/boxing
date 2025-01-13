@@ -1,8 +1,8 @@
-import React, { useState, useReducer } from "react";
+import React, { useReducer } from "react";
 import moment from "moment-jalaali";
 import Navbar from "../components/Navbar";
-import { getSdeadline } from "../util/getSdeadlline";
-import { getIdeadline } from "../util/getIdeadline";
+
+import { useBoxer } from "../context/BoxerContext";
 moment.loadPersian({ dialect: "persian-modern" });
 const initialState = {
   bday: "",
@@ -64,6 +64,8 @@ function reducer(state, action) {
       return { ...state, syear: action.payload };
     case "set/salaryDate":
       return { ...state, salaryDate: action.payload };
+    case "reset":
+      return initialState;
   }
 }
 
@@ -89,7 +91,7 @@ function Form() {
     syear,
     salaryDate,
   } = state;
-
+  const { setUser } = useBoxer();
   async function handleConvert() {
     try {
       //birth date------------------
@@ -148,6 +150,7 @@ function Form() {
         body: JSON.stringify(boxerData), // داده‌های ارسالی در قالب JSON
       });
       const data = await res.json();
+      setUser(data);
       console.log(data);
     } catch (error) {
       console.error("Error converting date:", error.message);
@@ -156,21 +159,28 @@ function Form() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div
+      className="w-full h-dvh bg-black relative flex-col justify-start pl-10 py-5  after:bg-center after:absolute after:inset-0  after:bg-cover after:bg-[url('./src/assets/images/view-pair-boxing-gloves.jpg')] after:z-10
+      after:pointer-events-none after:opacity-40 "
+    >
       <Navbar />
-
       <form
+        className="relative z-20 w-full  flex justify-start gap-5 items-center"
         action=""
         onSubmit={(e) => {
-          e.preventDefault(); // جلوگیری از رفرش شدن صفحه
-          handleConvert(); // فراخوانی تابع تبدیل
+          e.preventDefault();
+          handleConvert();
+          dispatch({ type: "reset" });
         }}
       >
-        <div className="flex flex-col gap-3 p-3">
-          <label htmlFor="name">name</label>
+        <div className="flex flex-col gap-3 p-3 w-4/12 text-white">
+          <label className="font-bold text-white" htmlFor="name">
+            name
+          </label>
           <input
+            className="bg-slate-800 p-2 rounded-lg "
             id="name"
-            className="bg-slate-100"
+            className="bg-slate-800 p-2 rounded-lg "
             type="text"
             placeholder="name"
             value={name}
@@ -178,10 +188,12 @@ function Form() {
               dispatch({ type: "set/name", payload: e.target.value })
             }
           />
-          <label htmlFor="lastName">last Name</label>
+          <label className="font-bold text-white" htmlFor="lastName">
+            last Name
+          </label>
           <input
+            className="bg-slate-800 p-2 rounded-lg "
             id="lastName"
-            className="bg-slate-100"
             placeholder="last name"
             type="text"
             value={lastName}
@@ -189,33 +201,39 @@ function Form() {
               dispatch({ type: "set/lastName", payload: e.target.value })
             }
           />{" "}
-          <label htmlFor="phoneNumber">phone number</label>
+          <label className="font-bold text-white" htmlFor="phoneNumber">
+            phone number
+          </label>
           <input
+            className="bg-slate-800 p-2 rounded-lg "
             id="phoneNumber"
             placeholder="phoneNumber"
-            className="bg-slate-100"
             type="text"
             value={phoneNumber}
             onChange={(e) =>
               dispatch({ type: "set/phoneNumber", payload: e.target.value })
             }
           />
-          <label htmlFor="km">national ID</label>
+          <label className="font-bold text-white" htmlFor="km">
+            national ID
+          </label>
           <input
+            className="bg-slate-800 p-2 rounded-lg "
             id="km"
             placeholder="km"
-            className="bg-slate-100"
             type="text"
             value={km}
             onChange={(e) =>
               dispatch({ type: "set/km", payload: e.target.value })
             }
           />
-          <label htmlFor="role">role</label>
+          <label className="font-bold text-white" htmlFor="role">
+            role
+          </label>
           <input
+            className="bg-slate-800 p-2 rounded-lg "
             id="role"
             placeholder="role"
-            className="bg-slate-100"
             type="text"
             value={role}
             onChange={(e) =>
@@ -223,117 +241,141 @@ function Form() {
             }
           />
         </div>
+        <div className="flex flex-col gap-3 p-3 w-4/12 justify-center items-center h-full text-white">
+          {/* //birth date */}
+          <h1 className="text-white font-bold ">BIRTH DATE</h1>
+          <div className="flex flex-row gap-3 p-3 w-full items-center">
+            <div className="flex flex-col w-1/3 justify-center gap-2">
+              <input
+                className="bg-slate-800 p-2 rounded-lg "
+                id="birthDay"
+                type="text"
+                placeholder="day-[00]"
+                value={bday}
+                onChange={(e) =>
+                  dispatch({ type: "set/bday", payload: e.target.value })
+                }
+              />
+            </div>
+            <div className="flex flex-col w-1/3 justify-center gap-2">
+              {" "}
+              <input
+                className="bg-slate-800 p-2 rounded-lg "
+                id="bithMonth"
+                placeholder="month-[00]"
+                type="text"
+                value={bmonth}
+                onChange={(e) =>
+                  dispatch({ type: "set/bmonth", payload: e.target.value })
+                }
+              />
+            </div>
+            <div className="flex flex-col w-1/3 justify-center gap-2">
+              <input
+                className="bg-slate-800 p-2 rounded-lg "
+                id="birthYear"
+                placeholder="year-[0000]"
+                type="text"
+                value={byear}
+                onChange={(e) =>
+                  dispatch({ type: "set/byear", payload: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          {/* insuranse date */}
+          <h1 className="text-white font-bold ">INSURANCE DATE</h1>
+          <div className="flex flex-row gap-3 p-3 w-full">
+            <div className="flex flex-col w-1/3 justify-center gap-2">
+              {" "}
+              <input
+                className="bg-slate-800 p-2 rounded-lg "
+                id="iday"
+                type="text"
+                placeholder="DAY-00"
+                value={iday}
+                onChange={(e) =>
+                  dispatch({ type: "set/iday", payload: e.target.value })
+                }
+              />
+            </div>
+            <div className="flex flex-col w-1/3 justify-center gap-2">
+              {" "}
+              <input
+                className="bg-slate-800 p-2 rounded-lg "
+                id="imonth"
+                placeholder="MONTH-00"
+                type="text"
+                value={imonth}
+                onChange={(e) =>
+                  dispatch({ type: "set/imonth", payload: e.target.value })
+                }
+              />{" "}
+            </div>
+            <div className="flex flex-col w-1/3 justify-center gap-2">
+              <input
+                className="bg-slate-800 p-2 rounded-lg "
+                id="iyear"
+                placeholder="YEAR-0000"
+                type="text"
+                value={iyear}
+                onChange={(e) =>
+                  dispatch({ type: "set/iyear", payload: e.target.value })
+                }
+              />
+            </div>
+          </div>
 
-        {/* //birth date */}
-        <div className="flex flex-row gap-3 p-3">
-          <label htmlFor="birthDay">day</label>
-          <input
-            id="birthDay"
-            className="bg-slate-100"
-            type="text"
-            placeholder="00"
-            value={bday}
-            onChange={(e) =>
-              dispatch({ type: "set/bday", payload: e.target.value })
-            }
-          />
-          <label htmlFor="birthMonth">month</label>
-          <input
-            id="bithMonth"
-            className="bg-slate-100"
-            placeholder="00"
-            type="text"
-            value={bmonth}
-            onChange={(e) =>
-              dispatch({ type: "set/bmonth", payload: e.target.value })
-            }
-          />{" "}
-          <label htmlFor="birthYear">year</label>
-          <input
-            id="birthYear"
-            placeholder="0000"
-            className="bg-slate-100"
-            type="text"
-            value={byear}
-            onChange={(e) =>
-              dispatch({ type: "set/byear", payload: e.target.value })
-            }
-          />
-        </div>
-        {/* insuranse date */}
-        <div className="flex flex-row gap-3 p-3">
-          <label htmlFor="iday">day</label>
-          <input
-            id="iday"
-            className="bg-slate-100"
-            type="text"
-            placeholder="00"
-            value={iday}
-            onChange={(e) =>
-              dispatch({ type: "set/iday", payload: e.target.value })
-            }
-          />
-          <label htmlFor="imonth">month</label>
-          <input
-            id="imonth"
-            className="bg-slate-100"
-            placeholder="00"
-            type="text"
-            value={imonth}
-            onChange={(e) =>
-              dispatch({ type: "set/imonth", payload: e.target.value })
-            }
-          />{" "}
-          <label htmlFor="iyear">year</label>
-          <input
-            id="iyear"
-            placeholder="0000"
-            className="bg-slate-100"
-            type="text"
-            value={iyear}
-            onChange={(e) =>
-              dispatch({ type: "set/iyear", payload: e.target.value })
-            }
-          />
-          <button type="submit" className="bg-blue-500 text-white  rounded">
-            Submit Birth Date
+          {/* salary date */}
+          <h1 className="text-white font-bold ">SALARY DATE</h1>
+          <div className="flex flex-row gap-3 p-3 w-full ">
+            <div className="flex flex-col w-1/3 justify-center gap-2">
+              {" "}
+              <input
+                className="bg-slate-800 p-2 rounded-lg "
+                id="sday"
+                type="text"
+                placeholder="DAY-00"
+                value={sday}
+                onChange={(e) =>
+                  dispatch({ type: "set/sday", payload: e.target.value })
+                }
+              />
+            </div>
+            <div className="flex flex-col w-1/3 justify-center gap-2">
+              {" "}
+              <input
+                className="bg-slate-800 p-2 rounded-lg "
+                id="smonth"
+                placeholder="MONTH-00"
+                type="text"
+                value={smonth}
+                onChange={(e) =>
+                  dispatch({ type: "set/smonth", payload: e.target.value })
+                }
+              />{" "}
+            </div>
+            <div className="flex flex-col w-1/3 justify-center gap-2 ">
+              {" "}
+              <input
+                className="bg-slate-800 p-2 rounded-lg"
+                id="syear"
+                placeholder="YEAR-0000"
+                type="text"
+                value={syear}
+                onChange={(e) =>
+                  dispatch({ type: "set/syear", payload: e.target.value })
+                }
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-500 text-white  rounded-lg p-3"
+          >
+            SUBMIT
           </button>
-        </div>
-        {/* salary date */}
-        <div className="flex flex-row gap-3 p-3">
-          <label htmlFor="sday">day</label>
-          <input
-            id="sday"
-            className="bg-slate-100"
-            type="text"
-            placeholder="00"
-            value={sday}
-            onChange={(e) =>
-              dispatch({ type: "set/sday", payload: e.target.value })
-            }
-          />
-          <label htmlFor="smonth">month</label>
-          <input
-            id="smonth"
-            className="bg-slate-100"
-            placeholder="00"
-            type="text"
-            value={smonth}
-            onChange={(e) =>
-              dispatch({ type: "set/smonth", payload: e.target.value })
-            }
-          />{" "}
-          <label htmlFor="syear">year</label>
-          <input
-            id="syear"
-            placeholder="0000"
-            className="bg-slate-100"
-            type="text"
-            value={syear}
-            onChange={(e) =>
-              dispatch({ type: "set/syear", payload: e.target.value })
-            }
-          />
         </div>
       </form>
     </div>
