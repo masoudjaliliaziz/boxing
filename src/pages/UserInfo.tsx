@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useBoxer } from "../context/BoxerContext";
 import { getAgeRange } from "../util/getBoxerRange";
 import moment from "moment-jalaali";
@@ -20,7 +20,7 @@ function UserInfo() {
     <>
       {" "}
       <div
-        className=" w-full h-dvh flex flex-col pl-10 py-5 justify-start bg-black relative after:bg-center after:absolute after:inset-0  after:bg-cover after:bg-[url('./src/assets/images/view-pair-boxing-gloves.jpg')] after:z-10
+        className=" w-full h-dvh flex flex-col gap-5 pl-10 py-5 justify-start bg-black relative after:bg-center after:absolute after:inset-0  after:bg-cover after:bg-[url('./src/assets/images/view-pair-boxing-gloves.jpg')] after:z-10
    after:pointer-events-none after:opacity-40"
       >
         <div className="info relative z-20 bg-slate-800 w-3/12 rounded-lg flex-col p-3 font-bold text-white">
@@ -63,6 +63,14 @@ function UserInfo() {
             </div>
           </div>
         </div>
+        <Link to={`/formEdit/${id}`}>
+          <button
+            type="submit"
+            className="bg-slate-800 font-bold  rounded-lg p-3 relative z-20 w-1/12 text-blue-400"
+          >
+            EDIT
+          </button>
+        </Link>
       </div>
     </>
   );

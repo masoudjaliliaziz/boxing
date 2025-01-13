@@ -6,6 +6,7 @@ import List from "./pages/List";
 import Form from "./pages/Form";
 import { BoxerProvider } from "./context/BoxerContext";
 import UserInfo from "./pages/UserInfo";
+import FormEdit from "./pages/FormEdit";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
             <Route path="/list" element={<List />} />
             <Route path="/:id" element={<UserInfo />} />
             <Route path="/form" element={<Form />} />
+            <Route path="/formEdit/:id" element={<FormEdit />} />
           </Routes>
         </BrowserRouter>
       </BoxerProvider>
