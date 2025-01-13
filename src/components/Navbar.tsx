@@ -13,7 +13,7 @@ function Navbar({ logo = false }) {
       )}
       <NavLink
         className={({ isActive }) =>
-          `font-bold ${isActive ? "text-red-600" : "text-white"}`
+          `font-bold ${isActive ? "text-[#5dbedf]" : "text-white"}`
         }
         to="/"
       >
@@ -21,7 +21,7 @@ function Navbar({ logo = false }) {
       </NavLink>
       <NavLink
         className={({ isActive }) =>
-          `font-bold ${isActive ? "text-red-600" : "text-white"}`
+          `font-bold ${isActive ? "text-[#5dbedf]" : "text-white"}`
         }
         to={"/list"}
       >
@@ -29,7 +29,7 @@ function Navbar({ logo = false }) {
       </NavLink>
       <NavLink
         className={({ isActive }) =>
-          `font-bold ${isActive ? "text-red-600" : "text-white"}`
+          `font-bold ${isActive ? "text-[#5dbedf]" : "text-white"}`
         }
         to={"/form"}
       >

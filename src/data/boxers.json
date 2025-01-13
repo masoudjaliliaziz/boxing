@@ -1,11 +1,28 @@
 {
   "boxers": [
     {
-      "id": 1,
       "name": "omid",
       "lastName": "sadeghi",
-      "role": "master",
-      "age": 33
+      "role": "boxer",
+      "age": 27,
+      "Ideadline": "2025-01-08T20:30:00.000Z",
+      "phoneNumber": 9339773919,
+      "km": 3980403655,
+      "birth": "1997-02-01T20:30:00.000Z",
+      "Sdeadline": "2025-01-08T20:30:00.000Z",
+      "id": "1"
+    },
+    {
+      "name": "masoud",
+      "lastName": "jalili",
+      "role": "boxer",
+      "age": 31,
+      "Ideadline": "2025-01-08T20:30:00.000Z",
+      "phoneNumber": 9356773919,
+      "km": 3990713655,
+      "birth": "1994-01-01T20:30:00.000Z",
+      "Sdeadline": "2024-12-15T20:30:00.000Z",
+      "id": "2"
     }
   ]
 }
