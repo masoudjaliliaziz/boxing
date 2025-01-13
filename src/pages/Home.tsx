@@ -5,7 +5,7 @@ function Home() {
   return (
     <div
       className="w-full h-dvh bg-black relative flex justify-start pl-10 py-5 after:bg-center after:absolute after:inset-0  after:bg-cover after:bg-[url('./src/assets/images/view-pair-boxing-gloves.jpg')] after:z-10
-      after:pointer-events-none after:opacity-20 "
+      after:pointer-events-none after:opacity-40 "
     >
       <Navbar logo={true} />
     </div>

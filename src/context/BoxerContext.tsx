@@ -1,25 +1,11 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
-
-type User = {
-  id: number;
-  name: string;
-  lastName: string;
-  role: string;
-  age: number;
-  Ideadline: string;
-};
-type BoxerContextType = {
-  user: User[];
-  getUserById: (id: number) => Promise<void>;
-  userI: User | undefined;
-};
-type State = {
-  user: User[];
-  userI: undefined | User;
-};
-type Action =
-  | { type: "getUser"; payload: User[] }
-  | { type: "getUserById"; payload: User };
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
+import { Action, BoxerContextType, State } from "../Types/types";
 
 type Props = {
   children: React.ReactNode;
@@ -33,11 +19,25 @@ const initialState: State = {
 };
 
 function BoxerProvider({ children }: Props) {
-  async function getUserById(id: number): Promise<void> {
-    const res = await fetch(`http://localhost:8000/boxers/${id}`);
-    const data = await res.json();
-    dispatch({ type: "getUserById", payload: data });
-  }
+  const getUserById = useCallback(async function getUserById(
+    id: string
+  ): Promise<void> {
+    try {
+      const res = await fetch(`http://localhost:8000/boxers/${id}`);
+
+      if (!res.ok) {
+        // بررسی وضعیت پاسخ، در صورتی که موفق نباشد
+        console.error(`Error fetching data for ID: ${id}`, res.statusText);
+        return;
+      }
+
+      const data = await res.json();
+      dispatch({ type: "getUserById", payload: data });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  },
+  []);
 
   const [state, dispatch] = useReducer(reducer, initialState);
 

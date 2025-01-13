@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router";
+import React, { useEffect } from "react";
+import { useParams } from "react-router";
 import { useBoxer } from "../context/BoxerContext";
-type User = {
-  id: number;
-  name: string;
-  lastName: string;
-  role: string;
-  age: number;
-  Ideadline: string;
-};
+import { getAgeRange } from "../util/getBoxerRange";
+
 function UserInfo() {
   const params = useParams();
   const { id } = params;
   const { getUserById, userI } = useBoxer();
   useEffect(() => {
-    getUserById(Number(id));
-  }, [getUserById, id]);
-  return <div>{userI?.name}</div>;
+    getUserById(id);
+  }, [id, getUserById]);
+
+  return (
+    <>
+      <div>{userI?.name}</div>
+      <h1>{userI ? getAgeRange(userI.birth) : "nothing"}</h1>
+    </>
+  );
 }
 
 export default UserInfo;
